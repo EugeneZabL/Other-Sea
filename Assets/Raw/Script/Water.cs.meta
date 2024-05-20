@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 96357dc15bb8e4f478c2c846f33be7c4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - waterShader: {fileID: 4800000, guid: deb3f4534786e214ca970c02d4c381f4, type: 3}
+  - atmosphere: {instanceID: 0}
+  - environmentTexture: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
