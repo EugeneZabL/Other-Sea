@@ -397,7 +397,7 @@ public class Water : MonoBehaviour {
         }
     }
 
-    private void CreateWaterPlane() {
+    public void CreateWaterPlane() {
         GetComponent<MeshFilter>().mesh = mesh = new Mesh();
         mesh.name = "Water";
         mesh.indexFormat = IndexFormat.UInt32;
