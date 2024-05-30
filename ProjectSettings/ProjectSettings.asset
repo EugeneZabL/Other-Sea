@@ -160,7 +160,8 @@ PlayerSettings:
   resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Standalone: com.DefaultCompany.Other-Sea
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -737,7 +738,8 @@ PlayerSettings:
   webGLMemoryGeometricGrowthStep: 0.2
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Standalone: CREST_OCEAN;CREST_OCEAN_PRESENT;UNITY_URP;COZY_WEATHER;COZY_3_AND_UP;COZY_URP
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
@@ -844,7 +846,7 @@ PlayerSettings:
   hmiLogStartupTiming: 0
   hmiCpuConfiguration: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: a5552b56-4962-45ae-9f4f-7f241c4556b2
   framebufferDepthMemorylessMode: 0

@@ -8,7 +8,7 @@ public class ShipMov : MonoBehaviour
     public float MaxSpeed = 5.0f;
     float CorrSpeed = 0.0f;
 
-    public float speedOfROtate = 5.0f;
+    public float speedOfROtate = 3.0f;
 
     public float MaxRorate = 3.0f;
     float CorrRotate = 0.00f;
@@ -45,7 +45,26 @@ public class ShipMov : MonoBehaviour
 
     void MovePoin()
     {
+        if(CorrSpeed>MaxSpeed)
+        {
+            CorrSpeed = MaxSpeed;
+        }
+        if(CorrSpeed<0)
+        {
+            CorrSpeed = 0;
+        }
+
+        if (CorrRotate > MaxRorate)
+        {
+            CorrRotate = MaxRorate;
+        }
+        if (CorrRotate < -MaxRorate)
+        {
+            CorrRotate = -MaxRorate;
+        }
+
         Point.transform.localPosition = new Vector3(CorrRotate, 0, 7+(CorrSpeed*0.1f));
+
     }
 
     public float GiveCorSpeed()
@@ -61,9 +80,9 @@ public class ShipMov : MonoBehaviour
     public void SetSpeed(float speed)
     {
         if (speed == 1f)
-            CorrSpeed = CorrSpeed + 0.01f;
+            CorrSpeed = CorrSpeed + 0.001f;
         else if(speed == -1f)
-            CorrSpeed = CorrSpeed - 0.01f;
+            CorrSpeed = CorrSpeed - 0.001f;
         else
             CorrSpeed = speed;
     }
@@ -71,9 +90,9 @@ public class ShipMov : MonoBehaviour
     public void SetRotate(float rotate)
     {
         if (rotate == 1f)
-            CorrRotate = CorrRotate + 0.1f;
+            CorrRotate = CorrRotate + 0.001f;
         else if (rotate == -1f)
-            CorrRotate = CorrRotate - 0.1f;
+            CorrRotate = CorrRotate - 0.001f;
         else
             CorrRotate = rotate;
     }
