@@ -10,29 +10,54 @@ public class Player : MonoBehaviour
     [SerializeField] private float _minYAngle = -45.0f; // Минимальный угол наклона камеры (вверх)
     [SerializeField] private float _maxYAngle = 45.0f;  // Максимальный угол наклона камеры (вниз)
 
-    [SerializeField] private float walkSpeed = 5f;
-    [SerializeField] private float runSpeed = 10f;
-    [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private float groundCheckDistance = 0.1f;
-    [SerializeField] private LayerMask groundLayer;
-    //[SerializeField] private Transform shipTransform;
+    public float groundDistance = 0.4f; // Расстояние для проверки земли
+    public LayerMask groundMask; // Маска слоя для определения земли
 
-    private Rigidbody rb;
+    public float walkSpeed = 5f;
+    public float runSpeed = 10f;
+    public float jumpHeight = 2f;
+    public float gravity = -9.81f;
+
+    private CharacterController characterController;
+    private Vector3 velocity;
     private bool isGrounded;
 
     private float _currentYRotation = 0.0f;
 
+    private Transform shipTransform;
+    private Vector3 lastShipPosition;
+
+    [SerializeField] GameObject BudkaOfControll;
+    bool test = true;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
+
+        characterController = GetComponent<CharacterController>();
+        shipTransform = transform.parent; // Предполагается, что корабль является родителем
+        lastShipPosition = shipTransform.position;
     }
     void Update()
     {
-        Move();
-        Jump();
-        MouseRotate();
+       // Move();
+        MouseRotate();  
+    }
+
+    void FixedUpdate()
+    {
+        // Для корректного определения isGrounded выполняем проверку в FixedUpdate
+        isGrounded = characterController.isGrounded;
+
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
+    }
+
+    void ControllerTest()
+    {
+
     }
 
     void MouseRotate()
@@ -53,30 +78,49 @@ public class Player : MonoBehaviour
         _playerCamera.transform.parent.rotation *= horizontalRotation;
     }
 
-    private void Move()
-    {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical);
-        movement = Camera.main.transform.TransformDirection(movement);
-        movement.y = 0; // Чтобы не было движения по оси Y
+    void Move()
+    {
+        // Проверяем, находится ли игрок на земле с помощью Raycast
+        isGrounded = Physics.CheckSphere(transform.position, groundDistance, groundMask);
+
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f; // Небольшое значение для стабилизации персонажа на земле
+        }
 
         float speed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
-        Vector3 velocity = movement.normalized * speed;
 
-         // Перемещаем персонажа в локальных координатах
-         Vector3 localMovement = transform.localPosition + velocity * Time.deltaTime;
-         rb.MovePosition(transform.parent.TransformPoint(localMovement));
+        float moveX = Input.GetAxis("Horizontal");
+        float moveZ = Input.GetAxis("Vertical");
+
+        Vector3 move = transform.right * moveX + transform.forward * moveZ;
+
+        characterController.Move(move * speed * Time.deltaTime);
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+
+        velocity.y += gravity * Time.deltaTime;
+
+        characterController.Move(velocity * Time.deltaTime);
+
+       //Обновляем позицию игрока относительно движения корабля
+       Vector3 shipMovement = shipTransform.position - lastShipPosition;
+       characterController.Move(shipMovement);
+       lastShipPosition = shipTransform.position;
     }
 
-    private void Jump()
-    {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundLayer);
 
-        if (isGrounded && Input.GetButtonDown("Jump"))
+    void OnDrawGizmosSelected()
+    {
+        if (groundMask != null)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, groundDistance);
         }
     }
+
 }

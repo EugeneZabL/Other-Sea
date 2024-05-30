@@ -249,7 +249,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 629638437}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PlaceHolderShip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,16 +264,17 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 629638436}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.23709251, y: 0, z: 0, w: 0.97148705}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1747464266}
   - {fileID: 874175694}
   - {fileID: 1528848601}
   - {fileID: 1529198481}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -27.43, y: 0, z: 0}
 --- !u!1 &874175693
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +287,7 @@ GameObject:
   - component: {fileID: 874175697}
   - component: {fileID: 874175696}
   - component: {fileID: 874175695}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -528,7 +529,7 @@ GameObject:
   - component: {fileID: 1528848604}
   - component: {fileID: 1528848603}
   - component: {fileID: 1528848602}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -634,7 +635,7 @@ GameObject:
   - component: {fileID: 1529198484}
   - component: {fileID: 1529198483}
   - component: {fileID: 1529198482}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -738,8 +739,8 @@ GameObject:
   - component: {fileID: 1747464266}
   - component: {fileID: 1747464269}
   - component: {fileID: 1747464268}
-  - component: {fileID: 1747464270}
   - component: {fileID: 1747464271}
+  - component: {fileID: 1747464272}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -756,12 +757,12 @@ Transform:
   m_GameObject: {fileID: 1747464265}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalPosition: {x: -1.6999998, y: 13.79, z: -0}
+  m_LocalScale: {x: 1.4999999, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1190357220}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 629638437}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1747464268
 MeshRenderer:
@@ -813,7 +814,32 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1747464265}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!143 &1747464270
+--- !u!114 &1747464271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1747464265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00f3d603e37370240a260817c561b143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerCamera: {fileID: 1190357219}
+  _rotateSpeed: 10
+  _minYAngle: -90
+  _maxYAngle: 90
+  groundDistance: 2
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  walkSpeed: 5
+  runSpeed: 15
+  jumpHeight: 2
+  gravity: -9
+  BudkaOfControll: {fileID: 0}
+--- !u!143 &1747464272
 CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -834,36 +860,14 @@ CharacterController:
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 1
+  m_SlopeLimit: 5
+  m_StepOffset: 0.5
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1747464271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1747464265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00f3d603e37370240a260817c561b143, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _walkSpeed: 5
-  _runSpeed: 8
-  _jumpForce: 5
-  _gravity: -10
-  _rotateSpeed: 10
-  _charControl: {fileID: 1747464270}
-  _playerCamera: {fileID: 1190357219}
-  _minYAngle: -90
-  _maxYAngle: 90
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 264174411}
   - {fileID: 629638437}
-  - {fileID: 1747464266}
