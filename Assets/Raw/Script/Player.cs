@@ -27,14 +27,13 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform shipTransform;
     private Vector3 lastShipPosition;
 
-    [SerializeField] GameObject BudkaOfControll;
-    public int PlayerState = 2;    // 0 - Ничего
-                            // 1 - Камера
-                            // 2 - Камера - относительно корабля
-                            // 3 - Камера + Передвижение
-                            // 4 - Камера + Передвижение - относительно корабля
+    [SerializeField] PlayerBoatController BudkaOfControll;
 
-    public bool onShip = true;
+    public int PlayerState = 2;    // 1-ходит
+                                   // 2-управляет
+
+    Vector3 positionBeforeTeleport;
+
 
     private void Start()
     {
@@ -45,27 +44,18 @@ public class Player : MonoBehaviour
         
         
         lastShipPosition = shipTransform.position; // Подумай как переадаптировать.
+
     }
     void Update()
     {
         switch(PlayerState)
         {
             case 0:
+                CameraControll();
+                //GravityCalk();
+                //UpdatePositionByShip();
                 break;
             case 1:
-                CameraControll();
-                GravityCalk();
-                break;
-            case 2:
-                CameraControll();
-                UpdatePositionByShip();
-                GravityCalk();
-                break;
-            case 3:
-                CameraControll();
-                Move();
-                break;
-            case 4:
                 CameraControll();
                 Move();
                 break;
@@ -73,25 +63,28 @@ public class Player : MonoBehaviour
                 Debug.LogError("Неизвесный тип игрока");
                 break;
         }
-
+        ButtonCheker();
        // Move();
        // CameraControll();  
     }
 
-    void FixedUpdate()
+    void ButtonCheker()
     {
-        // Для корректного определения isGrounded выполняем проверку в FixedUpdate
-        isGrounded = characterController.isGrounded;
-
-        if (isGrounded && velocity.y < 0)
+        if(Input.GetKeyDown(KeyCode.E) && PlayerState == 1)
         {
-            velocity.y = -2f;
+            PlayerState = 0;
+            positionBeforeTeleport = transform.position - shipTransform.position;
+            transform.SetParent(shipTransform);
+            transform.position = BudkaOfControll.Intial();
+            //lastShipPosition = transform.position;
         }
-    }
-
-    void ControllerTest()
-    {
-
+        if(Input.GetKeyDown(KeyCode.F) && PlayerState == 0)
+        {
+            PlayerState = 1;
+            transform.SetParent(null);
+            transform.position = shipTransform.position+positionBeforeTeleport;
+            BudkaOfControll.Stopp();
+        }
     }
 
     void CameraControll()
