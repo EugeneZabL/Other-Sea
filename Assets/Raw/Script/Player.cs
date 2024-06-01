@@ -24,24 +24,58 @@ public class Player : MonoBehaviour
 
     private float _currentYRotation = 0.0f;
 
-    private Transform shipTransform;
+    [SerializeField] private Transform shipTransform;
     private Vector3 lastShipPosition;
 
     [SerializeField] GameObject BudkaOfControll;
-    bool test = true;
+    public int PlayerState = 2;    // 0 - Ничего
+                            // 1 - Камера
+                            // 2 - Камера - относительно корабля
+                            // 3 - Камера + Передвижение
+                            // 4 - Камера + Передвижение - относительно корабля
+
+    public bool onShip = true;
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
 
         characterController = GetComponent<CharacterController>();
-        shipTransform = transform.parent; // Предполагается, что корабль является родителем
-        lastShipPosition = shipTransform.position;
+        //shipTransform = transform.parent; // Предполагается, что корабль является родителем
+        
+        
+        lastShipPosition = shipTransform.position; // Подумай как переадаптировать.
     }
     void Update()
     {
+        switch(PlayerState)
+        {
+            case 0:
+                break;
+            case 1:
+                CameraControll();
+                GravityCalk();
+                break;
+            case 2:
+                CameraControll();
+                UpdatePositionByShip();
+                GravityCalk();
+                break;
+            case 3:
+                CameraControll();
+                Move();
+                break;
+            case 4:
+                CameraControll();
+                Move();
+                break;
+            default:
+                Debug.LogError("Неизвесный тип игрока");
+                break;
+        }
+
        // Move();
-        MouseRotate();  
+       // CameraControll();  
     }
 
     void FixedUpdate()
@@ -60,7 +94,7 @@ public class Player : MonoBehaviour
 
     }
 
-    void MouseRotate()
+    void CameraControll()
     {
         // Получаем текущий угол поворота по вертикали
         float mouseY = -Input.GetAxis("Mouse Y") * _rotateSpeed;
@@ -103,16 +137,25 @@ public class Player : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
 
-        velocity.y += gravity * Time.deltaTime;
+        GravityCalk();
+        UpdatePositionByShip();
 
-        characterController.Move(velocity * Time.deltaTime);
-
-       //Обновляем позицию игрока относительно движения корабля
-       Vector3 shipMovement = shipTransform.position - lastShipPosition;
-       characterController.Move(shipMovement);
-       lastShipPosition = shipTransform.position;
     }
 
+    void UpdatePositionByShip()
+    {
+        //Обновляем позицию игрока относительно движения корабля
+        Vector3 shipMovement = shipTransform.position - lastShipPosition;
+        characterController.Move(shipMovement);
+        lastShipPosition = shipTransform.position;
+    }
+
+    void GravityCalk()
+    {
+
+        velocity.y += gravity * Time.deltaTime;
+        characterController.Move(velocity * Time.deltaTime);
+    }
 
     void OnDrawGizmosSelected()
     {
