@@ -9,10 +9,32 @@ public class Map : MonoBehaviour
     [SerializeField] Transform ShipPoint;
 
     [SerializeField] int MulOFsize = 100;
+
+    [SerializeField] GameObject MapMarkerNor;
+    [SerializeField] GameObject MapMarkerQuest;
+
+    //List<GameObject> listMarker;
     // Start is called before the first frame update
     void Start()
     {
+        GameObject[] listMarker = GameObject.FindGameObjectsWithTag("MapMarker");
+        foreach (GameObject go in listMarker)
+        {
+            GameObject Marker = GameObject.Instantiate(MapMarkerNor);
+            Marker.transform.SetParent(transform.GetComponentInParent<Transform>());
+            Marker.transform.rotation = transform.GetComponentInParent<Transform>().rotation;
+            Marker.transform.localPosition = new Vector2(go.transform.position.x/MulOFsize,go.transform.position.z/MulOFsize) + StartPosition;
+        }
+        listMarker = GameObject.FindGameObjectsWithTag("MapMarkerQuest");
+        foreach (GameObject go in listMarker)
+        {
+            GameObject Marker = GameObject.Instantiate(MapMarkerQuest);
+            Marker.transform.SetParent(transform.GetComponentInParent<Transform>());
+            Marker.transform.rotation = transform.GetComponentInParent<Transform>().rotation;
+            Marker.transform.localPosition = new Vector2(go.transform.position.x / MulOFsize, go.transform.position.z / MulOFsize) + StartPosition;
+        }
         transform.localPosition = StartPosition;
+        
     }
 
     // Update is called once per frame

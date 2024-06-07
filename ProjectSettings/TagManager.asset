@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Water
+  - MapMarker
+  - MapMarkerQuest
   layers:
   - Default
   - TransparentFX
