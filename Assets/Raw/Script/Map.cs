@@ -13,28 +13,37 @@ public class Map : MonoBehaviour
     [SerializeField] GameObject MapMarkerNor;
     [SerializeField] GameObject MapMarkerQuest;
 
+    [SerializeField] Transform MarkerObj;
+
     //List<GameObject> listMarker;
     // Start is called before the first frame update
     void Start()
-    {
+    { 
+
+       // MarkerObj.transform.localPosition = StartPosition;
+       // MarkerObj.transform.localScale = new Vector3(200, 200, 200) / MulOFsize;
+        transform.localPosition = StartPosition;
         GameObject[] listMarker = GameObject.FindGameObjectsWithTag("MapMarker");
         foreach (GameObject go in listMarker)
         {
             GameObject Marker = GameObject.Instantiate(MapMarkerNor);
-            Marker.transform.SetParent(transform.GetComponentInParent<Transform>());
+            Marker.transform.SetParent(MarkerObj);
             Marker.transform.rotation = transform.GetComponentInParent<Transform>().rotation;
             Marker.transform.localPosition = new Vector2(go.transform.position.x/MulOFsize,go.transform.position.z/MulOFsize) + StartPosition;
+            Marker.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
         }
         listMarker = GameObject.FindGameObjectsWithTag("MapMarkerQuest");
         foreach (GameObject go in listMarker)
         {
             GameObject Marker = GameObject.Instantiate(MapMarkerQuest);
-            Marker.transform.SetParent(transform.GetComponentInParent<Transform>());
+            Marker.transform.SetParent(MarkerObj);
             Marker.transform.rotation = transform.GetComponentInParent<Transform>().rotation;
             Marker.transform.localPosition = new Vector2(go.transform.position.x / MulOFsize, go.transform.position.z / MulOFsize) + StartPosition;
+            Marker.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
         }
-        transform.localPosition = StartPosition;
-        
+        MapMarkerNor.SetActive(false);
+        MapMarkerQuest.SetActive(false);
+
     }
 
     // Update is called once per frame
