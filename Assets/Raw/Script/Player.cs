@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     public float groundDistance = 0.4f; // Расстояние для проверки земли
     public LayerMask groundMask; // Маска слоя для определения земли
 
-    public float raycastDistance = 100f;
+    public float raycastDistance = 5f;
 
     public float walkSpeed = 5f;
     public float runSpeed = 10f;
@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] PlayerBoatController BudkaOfControll;
 
-    public int PlayerState = 2;    // 1-ходит
+    int PlayerState = 1;            // 1-ходит
                                    // 2-управляет
 
     Vector3 positionBeforeTeleport;
@@ -46,8 +46,13 @@ public class Player : MonoBehaviour
     private float targetFOV;
 
 
+    GameObject lastPlayerPos;
+
     private void Start()
     {
+        lastPlayerPos = new GameObject();
+        lastPlayerPos.transform.SetParent(shipTransform);
+
 
         cam = Camera.main;
         if (cam != null)
@@ -93,17 +98,18 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && PlayerState == 1)
         {
             PlayerState = 0;
-            positionBeforeTeleport = transform.position - shipTransform.position;
+            lastPlayerPos.transform.position = transform.position;
             transform.SetParent(shipTransform);
             transform.position = BudkaOfControll.Intial();
-            //lastShipPosition = transform.position;
         }
         if (Input.GetKeyDown(KeyCode.F) && PlayerState == 0)
         {
             PlayerState = 1;
             transform.SetParent(null);
-            transform.position = shipTransform.position + positionBeforeTeleport;
+            transform.position = lastPlayerPos.transform.position;
             BudkaOfControll.Stopp();
+            transform.rotation = Quaternion.Euler(shipTransform.rotation.x,shipTransform.rotation.y,0);
+            lastShipPosition = shipTransform.position;
         }
     }
 
@@ -133,7 +139,7 @@ public class Player : MonoBehaviour
 
         if (isGrounded && velocity.y < 0)
         {
-            velocity.y = -2f; // Небольшое значение для стабилизации персонажа на земле
+            velocity.y = -0.5f; // Небольшое значение для стабилизации персонажа на земле
         }
 
         float speed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
@@ -179,8 +185,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    private GameObject currentLookedObject = null;
+
+    
+
     void rayCastAction()
     {
+
+        /*
         // Проверяем нажатие кнопки мыши (левой кнопки)
         if (Input.GetMouseButtonDown(0))
         {
@@ -205,6 +217,38 @@ public class Player : MonoBehaviour
                         }
                     }
                 }
+            }
+        }
+        */
+
+        Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, raycastDistance))
+        {
+            GameObject hitObject = hit.transform.gameObject;
+
+            if (currentLookedObject != hitObject)
+            {
+                // Если игрок смотрит на новый объект
+                if (currentLookedObject != null)
+                {
+                    // Вызвать событие "Игрок больше не смотрит на текущий объект"
+                    CallSOul(hit, "PlayerLookOff");
+                }
+
+                // Вызвать событие "Игрок смотрит на новый объект"
+                CallSOul(hit, "PlayerLookOn");
+                currentLookedObject = hitObject;
+            }
+        }
+        else
+        {
+            // Если рейкаст не попадает ни в один объект
+            if (currentLookedObject != null)
+            {
+                // Вызвать событие "Игрок больше не смотрит на текущий объект"
+                CallSOul(currentLookedObject,"PlayerLookOff");
+                currentLookedObject = null;
             }
         }
     }
@@ -232,5 +276,34 @@ public class Player : MonoBehaviour
             cam.fieldOfView = targetFOV;
         }
 
+    }
+
+
+    void CallSOul(RaycastHit hit ,string nameMethod)
+    {
+        var target = hit.transform.GetComponent<MonoBehaviour>();
+        if (target != null)
+        {
+            // Вызываем метод ReycastOver(), если он существует
+            var method = target.GetType().GetMethod(nameMethod);
+            if (method != null)
+            {
+                method.Invoke(target, null);
+            }
+        }
+    }
+
+    void CallSOul(GameObject gameObject, string nameMethod)
+    {
+        var target = gameObject.transform.GetComponent<MonoBehaviour>();
+        if (target != null)
+        {
+            // Вызываем метод ReycastOver(), если он существует
+            var method = target.GetType().GetMethod(nameMethod);
+            if (method != null)
+            {
+                method.Invoke(target, null);
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - MapMarker
   - MapMarkerQuest
   - FizShip
+  - Canva
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - Ship
   - Player
   - FizMod
-  - 
+  - OnlyReycast
   - 
   - 
   - 

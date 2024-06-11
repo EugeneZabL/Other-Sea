@@ -10,7 +10,19 @@ public class PlayerBoatController : MonoBehaviour
 
     [SerializeField] BoatControllerUpdate Boat;
 
+    [SerializeField] float MaxSpeed;
+    [SerializeField] float MaxRotate;
+
+    float _Speed = 0f;
+    float _Rotate = 0f;
+
     bool isActive = false;
+
+    private void Start()
+    {
+        //Boat._enginePower = _Speed;
+       // Boat._turnPower = _Rotate;
+    }
 
     // Update is called once per frame
     void Update()
@@ -23,27 +35,31 @@ public class PlayerBoatController : MonoBehaviour
 
     void ButtonCheck()
     {
+
+        _Speed = Boat._enginePower;
+        _Rotate = Boat._turnPower;
+
         if(Input.GetKey(KeyCode.W))
         {
-            Boat._enginePower += 0.001f;
+            _Speed += 0.001f;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            Boat._enginePower -= 0.001f;
+            _Speed -= 0.001f;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            Boat._turnPower += 0.001f;
+            _Rotate += 0.001f;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            Boat._turnPower -= 0.001f;
+            _Rotate-= 0.001f;
         }
-        if (Input.GetKey(KeyCode.X))
-        {
-            Boat._enginePower = 0;
-            Boat._turnPower = 0;
-        }
+
+        CheckLimit();
+
+        Boat._enginePower = _Speed;
+        Boat._turnPower = _Rotate;
     }
 
 
@@ -56,5 +72,18 @@ public class PlayerBoatController : MonoBehaviour
     public void Stopp()
     {
         isActive=false;
+    }
+
+    void CheckLimit()
+    {
+        if(_Speed>MaxSpeed)
+            _Speed = MaxSpeed;
+        else if(_Speed<-MaxSpeed/2)
+            _Speed = -MaxSpeed/2;
+
+        if(_Rotate>MaxRotate)
+            _Rotate = MaxRotate;
+        else if(_Rotate<-MaxRotate)
+                _Rotate = -MaxRotate;
     }
 }

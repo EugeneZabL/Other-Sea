@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
-    [SerializeField] bool isSee = true;
+   // [SerializeField] bool isSee = true;
     [SerializeField] Vector2 StartPosition;
     [SerializeField] Transform ShipPoint;
 
