@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
-   // [SerializeField] bool isSee = true;
-    [SerializeField] Vector2 StartPosition;
+    // [SerializeField] bool isSee = true;
+    [SerializeField] Transform HomePin;
+    private Vector2 StartPosition;
     [SerializeField] Transform ShipPoint;
 
     [SerializeField] int MulOFsize = 100;
@@ -19,9 +20,9 @@ public class Map : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     { 
-
-       // MarkerObj.transform.localPosition = StartPosition;
-       // MarkerObj.transform.localScale = new Vector3(200, 200, 200) / MulOFsize;
+        StartPosition = HomePin.transform.localPosition;
+        Debug.Log(StartPosition);
+        MarkerObj.transform.localPosition = StartPosition;
         transform.localPosition = StartPosition;
         GameObject[] listMarker = GameObject.FindGameObjectsWithTag("MapMarker");
         foreach (GameObject go in listMarker)
@@ -29,8 +30,8 @@ public class Map : MonoBehaviour
             GameObject Marker = GameObject.Instantiate(MapMarkerNor);
             Marker.transform.SetParent(MarkerObj);
             Marker.transform.rotation = transform.GetComponentInParent<Transform>().rotation;
-            Marker.transform.localPosition = new Vector2(go.transform.position.x/MulOFsize,go.transform.position.z/MulOFsize) + StartPosition;
-            Marker.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            Marker.transform.localPosition = new Vector2(go.transform.position.x/MulOFsize,go.transform.position.z/MulOFsize);
+            Marker.transform.localScale = new Vector3(1f, 1f, 1f);
         }
         listMarker = GameObject.FindGameObjectsWithTag("MapMarkerQuest");
         foreach (GameObject go in listMarker)
@@ -38,8 +39,8 @@ public class Map : MonoBehaviour
             GameObject Marker = GameObject.Instantiate(MapMarkerQuest);
             Marker.transform.SetParent(MarkerObj);
             Marker.transform.rotation = transform.GetComponentInParent<Transform>().rotation;
-            Marker.transform.localPosition = new Vector2(go.transform.position.x / MulOFsize, go.transform.position.z / MulOFsize) + StartPosition;
-            Marker.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            Marker.transform.localPosition = new Vector2(go.transform.position.x / MulOFsize, go.transform.position.z / MulOFsize);
+            Marker.transform.localScale = new Vector3(1f, 1f, 1f);
         }
         MapMarkerNor.SetActive(false);
         MapMarkerQuest.SetActive(false);

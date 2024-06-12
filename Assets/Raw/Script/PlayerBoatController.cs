@@ -13,6 +13,9 @@ public class PlayerBoatController : MonoBehaviour
     [SerializeField] float MaxSpeed;
     [SerializeField] float MaxRotate;
 
+    [SerializeField] Transform PointSpeed;
+    [SerializeField] Transform PointSpeedBack;
+
     float _Speed = 0f;
     float _Rotate = 0f;
 
@@ -31,6 +34,11 @@ public class PlayerBoatController : MonoBehaviour
         {
             ButtonCheck();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        SpedometerCalc();
     }
 
     void ButtonCheck()
@@ -60,6 +68,7 @@ public class PlayerBoatController : MonoBehaviour
 
         Boat._enginePower = _Speed;
         Boat._turnPower = _Rotate;
+
     }
 
 
@@ -85,5 +94,21 @@ public class PlayerBoatController : MonoBehaviour
             _Rotate = MaxRotate;
         else if(_Rotate<-MaxRotate)
                 _Rotate = -MaxRotate;
+    }
+
+
+    void SpedometerCalc()
+    {
+        if(_Speed>=0)
+        {
+            PointSpeed.transform.localRotation = Quaternion.Euler(0, 0, _Speed * -100);
+            PointSpeedBack.transform.localRotation =  Quaternion.Euler(0, 0, 0);
+        }
+        else
+        {
+            PointSpeed.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            PointSpeedBack.transform.localRotation = Quaternion.Euler(0, 0, _Speed * -100);
+        }
+        
     }
 }

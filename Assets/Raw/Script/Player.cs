@@ -240,6 +240,11 @@ public class Player : MonoBehaviour
                 CallSOul(hit, "PlayerLookOn");
                 currentLookedObject = hitObject;
             }
+
+            if(Input.GetMouseButtonDown(0))
+            {
+                CallSOul(hit, "ReycastOver");
+            }
         }
         else
         {
