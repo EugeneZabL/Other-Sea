@@ -9,6 +9,9 @@ TagManager:
   - MapMarkerQuest
   - FizShip
   - Canva
+  - Radioo
+  - Honk
+  - RigBodMarker
   layers:
   - Default
   - TransparentFX

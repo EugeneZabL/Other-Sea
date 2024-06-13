@@ -23,6 +23,7 @@ public class Map : MonoBehaviour
         StartPosition = HomePin.transform.localPosition;
         Debug.Log(StartPosition);
         MarkerObj.transform.localPosition = StartPosition;
+        MarkerObj.transform.localPosition = new Vector3(StartPosition.x,StartPosition.y,-0.01f);
         transform.localPosition = StartPosition;
         GameObject[] listMarker = GameObject.FindGameObjectsWithTag("MapMarker");
         foreach (GameObject go in listMarker)

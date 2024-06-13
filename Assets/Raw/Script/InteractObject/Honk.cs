@@ -11,6 +11,8 @@ public class Honk : MonoBehaviour
     // Переменная для хранения аудиоисточника
     private AudioSource audioSource;
 
+    private GameObject LightHouse;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +34,11 @@ public class Honk : MonoBehaviour
     public void ReycastOver()
     {
         audioSource.Play();
+
+        if(LightHouse!=null)
+        {
+            LightHouse.GetComponent<LightHouse>().JustDoThis();
+        }
     }
 
     public void PlayerLookOn()
@@ -42,5 +49,15 @@ public class Honk : MonoBehaviour
     public void PlayerLookOff()
     {
 
+    }
+
+    public void SayHi(GameObject ObjectLH)
+    {
+        LightHouse = ObjectLH;
+    }
+
+    public void SayBy()
+    {
+        LightHouse = null;
     }
 }
