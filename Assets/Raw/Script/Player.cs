@@ -76,21 +76,46 @@ public class Player : MonoBehaviour
             case 0:
                 CameraControll();
                 FovChanger();
+                ExitButton();
                 //GravityCalk();
                 //UpdatePositionByShip();
                 break;
             case 1:
                 CameraControll();
                 Move();
+                GravityCalk();
+                UpdatePositionByShip();
+                break;
+            case 2:
+                CameraControll();
+                Move();
+                GravityCalk();
                 break;
             default:
                 Debug.LogError("Неизвесный тип игрока");
                 break;
         }
-        ButtonCheker();
+
+
+        //ButtonCheker();
         rayCastAction();
+
+
         // Move();
         // CameraControll();  
+    }
+
+    void ExitButton()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            PlayerState = 1;
+            transform.SetParent(null);
+            transform.position = lastPlayerPos.transform.position;
+            BudkaOfControll.Stopp();
+            transform.rotation = Quaternion.Euler(shipTransform.rotation.x, shipTransform.rotation.y, 0);
+            lastShipPosition = shipTransform.position;
+        }
     }
 
     void ButtonCheker()
@@ -100,6 +125,7 @@ public class Player : MonoBehaviour
             PlayerState = 0;
             lastPlayerPos.transform.position = transform.position;
             transform.SetParent(shipTransform);
+            //transform.rotation = Quaternion.Euler(shipTransform.rotation.x, shipTransform.rotation.y, 0);
             transform.position = BudkaOfControll.Intial();
         }
         if (Input.GetKeyDown(KeyCode.F) && PlayerState == 0)
@@ -156,8 +182,7 @@ public class Player : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
 
-        GravityCalk();
-        UpdatePositionByShip();
+
 
     }
 
@@ -310,5 +335,20 @@ public class Player : MonoBehaviour
                 method.Invoke(target, null);
             }
         }
+    }
+
+    public void ResetLastPlayerPos(int status)
+    {
+        lastPlayerPos.transform.position = transform.position;
+        PlayerState = status;
+    }
+
+    public void ReturnToShip()
+    {
+        PlayerState = 1;
+        transform.SetParent(null);
+        transform.position = lastPlayerPos.transform.position;
+        transform.rotation = Quaternion.Euler(shipTransform.rotation.x, shipTransform.rotation.y, 0);
+        lastShipPosition = shipTransform.position;
     }
 }

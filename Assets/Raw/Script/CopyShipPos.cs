@@ -6,6 +6,7 @@ public class CopyShipPos : MonoBehaviour
 {
     public GameObject FizShip;
 
+
     void Update()
     {
         transform.position = FizShip.transform.position;

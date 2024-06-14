@@ -19,7 +19,7 @@ public class PlayerBoatController : MonoBehaviour
     float _Speed = 0f;
     float _Rotate = 0f;
 
-    bool isActive = false;
+    public bool isActive = false;
 
     private void Start()
     {

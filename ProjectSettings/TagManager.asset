@@ -12,6 +12,7 @@ TagManager:
   - Radioo
   - Honk
   - RigBodMarker
+  - Cabina
   layers:
   - Default
   - TransparentFX
