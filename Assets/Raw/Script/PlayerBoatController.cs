@@ -10,7 +10,7 @@ public class PlayerBoatController : MonoBehaviour
 
     [SerializeField] BoatControllerUpdate Boat;
 
-    [SerializeField] float MaxSpeed;
+    public float MaxSpeed;
     [SerializeField] float MaxRotate;
 
     [SerializeField] Transform PointSpeed;
@@ -23,6 +23,11 @@ public class PlayerBoatController : MonoBehaviour
 
     private void Start()
     {
+        //PlayerPrefs.SetInt("HighScore", 100);
+        if (PlayerPrefs.GetInt("FunMode") == 1)
+        {
+            MaxSpeed = 100;
+        }
         //Boat._enginePower = _Speed;
        // Boat._turnPower = _Rotate;
     }

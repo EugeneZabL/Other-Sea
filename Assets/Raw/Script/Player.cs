@@ -36,6 +36,9 @@ public class Player : MonoBehaviour
 
     Vector3 positionBeforeTeleport;
 
+    [SerializeField] FakeLoad _loader;
+    [SerializeField] Transform SafePosition;
+
 
     // Настройки приближения
     public float zoomSpeed = 2f;         // Скорость приближения
@@ -48,8 +51,11 @@ public class Player : MonoBehaviour
 
     GameObject lastPlayerPos;
 
+    public int LightHouseLeft = 0;
+
     private void Start()
     {
+        //_loader.AskForAnim();
         lastPlayerPos = new GameObject();
         lastPlayerPos.transform.SetParent(shipTransform);
 
@@ -349,6 +355,14 @@ public class Player : MonoBehaviour
         transform.SetParent(null);
         transform.position = lastPlayerPos.transform.position;
         transform.rotation = Quaternion.Euler(shipTransform.rotation.x, shipTransform.rotation.y, 0);
+        lastShipPosition = shipTransform.position;
+    }
+
+    public void RespawnPlayer()
+    {
+        _loader.AskForAnim();
+
+        transform.position = SafePosition.position;
         lastShipPosition = shipTransform.position;
     }
 }

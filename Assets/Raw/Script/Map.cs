@@ -16,6 +16,8 @@ public class Map : MonoBehaviour
 
     [SerializeField] Transform MarkerObj;
 
+    [SerializeField] Player Player;
+
     //List<GameObject> listMarker;
     // Start is called before the first frame update
     void Start()
@@ -33,6 +35,7 @@ public class Map : MonoBehaviour
             Marker.transform.rotation = transform.GetComponentInParent<Transform>().rotation;
             Marker.transform.localPosition = new Vector2(go.transform.position.x/MulOFsize,go.transform.position.z/MulOFsize);
             Marker.transform.localScale = new Vector3(1f, 1f, 1f);
+            Player.LightHouseLeft++;
         }
         listMarker = GameObject.FindGameObjectsWithTag("MapMarkerQuest");
         foreach (GameObject go in listMarker)

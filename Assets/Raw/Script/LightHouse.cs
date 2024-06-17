@@ -6,10 +6,13 @@ public class LightHouse : MonoBehaviour
 {
     [SerializeField] GameObject MyLight;
     private Honk Cap;
+
+    private Player player;
     // Start is called before the first frame update
     void Start()
     {
         Cap = GameObject.FindGameObjectWithTag("Honk").GetComponent<Honk>();
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -45,6 +48,7 @@ public class LightHouse : MonoBehaviour
         if(!MyLight.activeSelf)
         {
             MyLight.SetActive(true);
+            player.LightHouseLeft--;
         }
     }
 }

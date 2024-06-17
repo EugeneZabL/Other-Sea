@@ -7,7 +7,7 @@ public class Anchor : MonoBehaviour
 {
     [SerializeField] ShipAnchor scriptAnc;
 
-    bool isActive = false;
+    bool isActive = true;
 
     [SerializeField] GameObject uiObject;
 

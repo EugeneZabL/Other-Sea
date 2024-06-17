@@ -16,7 +16,6 @@ public class Radio : MonoBehaviour
         if (shuffledPlaylist.Count > 0)
         {
             audioSource.clip = shuffledPlaylist[currentTrackIndex];
-            audioSource.Play();
         }
     }
 
